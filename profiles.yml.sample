@@ -1,0 +1,5 @@
+default:
+    url: https://usegalaxy.org.au
+    api_key: a1b2c3d4
+eu:
+    url: https://usegalaxy.eu
