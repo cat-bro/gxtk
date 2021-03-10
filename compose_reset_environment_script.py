@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from utils import get_galaxy_instance
+from utils import get_galaxy_instance, user_is_admin
 
 channels = ['iuc', 'conda-forge', 'bioconda', 'defaults']
 channel_str = ' '.join([f'-c {channel}' for channel in channels])
@@ -15,6 +15,10 @@ def main():
 
     args = parser.parse_args()
     galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
+    if not user_is_admin(galaxy_instance):
+        print('Non-admin accounts cannot access this info')
+        return
+
     print_conda_commands(galaxy_instance, args.tool_id)
 
 

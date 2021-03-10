@@ -1,9 +1,7 @@
 import argparse
 import os
 
-from utils import get_galaxy_instance
-
-default_galaxy_url = 'https://usegalaxy.org.au'
+from utils import get_galaxy_instance, user_is_admin
 
 
 def main():
@@ -15,12 +13,15 @@ def main():
     args = parser.parse_args()
 
     galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
+    if not user_is_admin(galaxy_instance):
+        print('Non-admin accounts cannot access this info')
+        return
 
     print(get_mulled_env_for_tool_id(galaxy_instance=galaxy_instance, tool_id=args.tool_id))
 
 
 def get_mulled_env_for_tool_id(galaxy_instance, tool_id):
-    requirements = galaxy_instance.tools.requirements()
+    requirements = galaxy_instance.tools.requirements(tool_id)
     return get_env_from_requirements(requirements)
 
 

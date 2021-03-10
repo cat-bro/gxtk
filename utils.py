@@ -19,3 +19,7 @@ def get_galaxy_instance(url, api_key, profile):
         if not api_key:
             api_key = prof.get('api_key') # can be None
     return GalaxyInstance(url, api_key)
+
+
+def user_is_admin(galaxy_instance):
+    return galaxy_instance.config.get_config().get('is_admin_user', False)
