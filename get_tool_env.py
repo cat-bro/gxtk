@@ -5,7 +5,7 @@ from utils import get_galaxy_instance, user_is_admin
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Get installed versions and revisions on GA')
+    parser = argparse.ArgumentParser(description='Get virtual environment name for a tool installed on Galaxy (admin only)')
     parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)
     parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
     parser.add_argument('-a', '--api_key', help='Galaxy admin api key')

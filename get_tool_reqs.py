@@ -1,6 +1,7 @@
 import argparse
 from utils import get_galaxy_instance, user_is_admin
 
+from get_tool_env import get_env_from_requirements
 
 def main():
     parser = argparse.ArgumentParser(description='Get installed versions and revisions on GA')
@@ -25,10 +26,14 @@ def get_requirement_str_for_tool_id(galaxy_instance, tool_id, include_env=False)
     if not requirements:
         print('No requirements for %s' % tool_id)
         return
-    return_str = ' '.join(['%s=%s' % (r['name'], r['version']) for r in requirements])
+    return_str = get_req_str_from_requirements(requirements)
     if include_env:
-        return_str += f' ({requirements[0].get("environment_path")})'
+        return_str += get_env_from_requirements(requirements)
     return return_str
+
+
+def get_req_str_from_requirements(requirements):
+    return ' '.join(['%s=%s' % (r['name'], r['version']) for r in requirements])
 
 if __name__ == '__main__':
     main()

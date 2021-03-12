@@ -3,12 +3,12 @@ import argparse
 from bioblend.galaxy import GalaxyInstance
 
 from get_tool_env import get_env_from_requirements
-from utils import get_galaxy_instance
+from utils import get_galaxy_instance, user_is_admin
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Get installed versions and revisions on GA')
-    parser.add_argument('-n', '--name', help='Tool name')
+    parser = argparse.ArgumentParser(description='Search for tools on Galaxy using repository name or tool display name')
+    parser.add_argument('-n', '--name', help='Tool repository name')
     parser.add_argument('-N', '--display_name', help='User facing tool name')
     parser.add_argument('-v', '--version', help='Version')
     parser.add_argument('-z', '--fuzz', action='store_true', help='Match name including string')
@@ -25,8 +25,7 @@ def main():
     all = args.all
 
     galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
-    is_admin = galaxy_instance.config.get_config().get('is_admin_user', False)
-    tools = [t for t in galaxy_instance.tools.get_tools() if t.get('tool_shed_repository')]
+    tools = [t for t in galaxy_instance.tools.get_tools() if t.get('tool_shed_repository')]  # shed tools only.  # TODO: allow non-shed-tools to be returned here
 
     if not all:
         if not (name or display_name):
@@ -43,7 +42,7 @@ def main():
     if not tools:
         print('No tools found')
         return
-    include_env = is_admin  # might refine logic around including env by default for admins
+    include_env = user_is_admin(galaxy_instance)  # might refine logic around including env by default for admins
 
     def get_row(tool):
         row = [
