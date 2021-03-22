@@ -5,9 +5,9 @@ from get_tool_reqs import get_req_str_from_requirements
 from get_tool_env import get_env_from_requirements
 from utils import get_galaxy_instance, user_is_admin
 
-channels = ['conda-forge', 'bioconda', 'defaults']
 flags = ['--quiet', '--override-channels']
 flag_str = ' '.join(flags)
+channels = ['conda-forge', 'bioconda', 'defaults']
 channel_str = ' '.join([f'-c {channel}' for channel in channels])
 
 """
