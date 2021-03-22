@@ -5,7 +5,9 @@ from get_tool_reqs import get_req_str_from_requirements
 from get_tool_env import get_env_from_requirements
 from utils import get_galaxy_instance, user_is_admin
 
-channels = ['iuc', 'conda-forge', 'bioconda', 'defaults']
+channels = ['conda-forge', 'bioconda', 'defaults']
+flags = ['--quiet', '--override-channels']
+flag_str = ' '.join(flags)
 channel_str = ' '.join([f'-c {channel}' for channel in channels])
 
 """
@@ -39,7 +41,7 @@ def print_conda_commands(galaxy_instance, tool_id):
     print(f'# {env_name} ({tool_id})')
     print(f'conda env remove -n {env_name}')
     print(f'conda create -y --prefix {env_name}')
-    print(f'conda install -y -n {env_name} {channel_str} {req_str}')
+    print(f'conda install -y -n {env_name} {flag_str} {channel_str} {req_str}')
 
 if __name__ == "__main__":
     main()

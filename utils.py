@@ -6,6 +6,7 @@ from bioblend.galaxy import GalaxyInstance
 profiles_path = 'profiles.yml'
 
 def get_galaxy_instance(url, api_key, profile):
+    # If the galaxy_url is not provided, the profiles file must exist.
     if not url and not profile:
         profile = 'default'
     if profile or not url:
@@ -13,7 +14,7 @@ def get_galaxy_instance(url, api_key, profile):
             with open(profiles_path) as handle:
                 profiles = yaml.safe_load(handle)
         else:
-            raise Exception('Profiles file %s not found' % profiles_path)
+            raise Exception('Profiles file %s not found:' % profiles_path)
         prof = profiles[profile] if profile else profiles['default']
         url = prof['url']  # must exist
         if not api_key:
