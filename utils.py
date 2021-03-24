@@ -2,6 +2,7 @@ import os
 import yaml
 
 from bioblend.galaxy import GalaxyInstance
+from bioblend.galaxy.tools import ToolClient as bioblend_ToolClient
 
 profiles_path = 'profiles.yml'
 
@@ -24,3 +25,21 @@ def get_galaxy_instance(url, api_key, profile):
 
 def user_is_admin(galaxy_instance):
     return galaxy_instance.config.get_config().get('is_admin_user', False)
+
+
+def fix_url(url, prefix='https://', short=True):
+    if short and url.startswith(prefix):
+        return url[len(prefix):].strip('/')
+    if not short and not url.startswith(prefix):
+        return prefix + url
+    return url
+
+
+class ToolClient(bioblend_ToolClient):
+    def reload(self, tool_id):
+        url = self._make_url(tool_id) + '/reload'
+        return self._get(url=url)
+
+
+def get_tool_client(galaxy_instance):
+    return ToolClient(galaxy_instance)
