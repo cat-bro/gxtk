@@ -4,7 +4,8 @@ import yaml
 from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.tools import ToolClient as bioblend_ToolClient
 
-profiles_path = 'profiles.yml'
+#profiles_path = 'profiles.yml'
+profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
 
 def get_galaxy_instance(url, api_key, profile):
     # If the galaxy_url is not provided, the profiles file must exist.
