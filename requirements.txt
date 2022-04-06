@@ -1,1 +1,2 @@
-bioblend>=0.15.0
+bioblend>=0.16.0
+humanize
