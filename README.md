@@ -4,8 +4,8 @@ Scripts for querying the galaxy tool panel
 **get_tool_details.py**
 
 Filter a list of all installed tools on Galaxy based on repository name or tool display name.  Results are returned as
-tab separated values.  If an admin API key is supplied, the result includes the name of the tool's conda environment if
-there is one.
+tab separated values.  If an admin API key is supplied and the -e flag included, the result includes the name of the
+tool's conda environment if there is one.
 
 ```
 usage: get_tool_details.py [-h] [-n NAME] [-N DISPLAY_NAME] [-v VERSION] [-o OWNER] [-z] [--all] [-e] [-g GALAXY_URL] [-a API_KEY] [-p PROFILE] [-t TOOL_IDS [TOOL_IDS ...]] [-s]
@@ -24,6 +24,7 @@ optional arguments:
   -z, --fuzz            Match substring of repository name from search term
   --all                 Show all installed tools
   -e, --env             Show virtual environment name (admin API key required)
+  -b, --biotools        Show bio.tools IDs in output
   -g GALAXY_URL, --galaxy_url GALAXY_URL
                         URL of Galaxy instance
   -a API_KEY, --api_key API_KEY
