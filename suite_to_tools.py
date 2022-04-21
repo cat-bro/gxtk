@@ -14,24 +14,20 @@ def main():
     parser.add_argument('-u', '--url', help='Link to tool shed repository')
     args = parser.parse_args()
 
-    if args.name:
-        if not (args.revision and args.owner and args.tool_shed_url):
-            raise Exception('need -n, -o, -r and -t args')
-        else:
-            name = args.name
-            owner = args.owner
-            revision = args.revision
-            tool_shed_url = args.tool_shed_url
+    if args.name and args.revision and args.owner:
+        name = args.name
+        owner = args.owner
+        revision = args.revision
+        tool_shed_url = args.tool_shed_url
     elif args.url:
         url = args.url
         if url.startswith('https://'):
             url = url.split('//')[1]
         tool_shed_url, _, owner, name, revision = url.strip('/').split('/')
     else:
-        raise Exception('-u argument or all of -n, -o, -r and -t must be provided')
+        raise Exception('--url argument or all of --name, --owner and --revision must be provided')
 
     shed = ToolShedInstance('https://'+tool_shed_url)
-    print(shed)
 
     aa, metadata, install_info = shed.repositories.get_repository_revision_install_info(name, owner, revision)
     _1, _2, _3, _4, _5, rev_info_1, rev_info_2 = install_info[name]

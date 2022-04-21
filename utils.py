@@ -4,7 +4,6 @@ import yaml
 from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.tools import ToolClient as bioblend_ToolClient
 
-#profiles_path = 'profiles.yml'
 profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
 
 def get_galaxy_instance(url, api_key, profile):
@@ -37,7 +36,7 @@ def fix_url(url, prefix='https://', short=True):
 
 
 class ToolClient(bioblend_ToolClient):
-    def reload(self, tool_id):
+    def reload(self, tool_id):  # TODO: this is in bioblend 0.16.0 and can be removed here
         url = self._make_url(tool_id) + '/reload'
         return self._get(url=url)
 
