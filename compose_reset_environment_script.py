@@ -13,9 +13,7 @@ channel_str = ' '.join([f'-c {channel}' for channel in channels])
 """
 This script prints out conda commands for uninstalling and reinstalling an environment from
 _conda/envs directory where the conda base enviroment is active.  The purpose is for reinstalling environments where
-there are issues, particularly if the environment needs an extra package such as an older openssl.  One would generate
-commands from this script, manually add the final line i.e. balloon=1.2.3, paste it into terminal and save it
-somewhere so that they remember what they have done for next time.
+the environment has errors.
 """
 
 def main():
