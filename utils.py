@@ -3,6 +3,7 @@ import yaml
 
 from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.tools import ToolClient as bioblend_ToolClient
+from bioblend.galaxy.config import ConfigClient as bioblend_ConfigClient
 
 profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
 
@@ -41,5 +42,15 @@ class ToolClient(bioblend_ToolClient):
         return self._get(url=url)
 
 
+class ConfigClient(bioblend_ConfigClient):
+    def whoami(self):
+        url = self._make_url().replace('configuration', 'whoami')
+        return self._get(url=url)
+
+
 def get_tool_client(galaxy_instance):
     return ToolClient(galaxy_instance)
+
+
+def get_config_client(galaxy_instance):
+    return ConfigClient(galaxy_instance)
