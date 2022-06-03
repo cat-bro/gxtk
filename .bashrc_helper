@@ -1,5 +1,5 @@
 # Source this file from .bashrc/.zshrc to be able to run 'python get_tool_details.py' as gtd, for example
-# gtd -n bowtie2
+# gxtk -n bowtie2
 
 HERE=${BASH_SOURCE%/*}  # should work on ubuntu
 [ ! "$HERE" ] && HERE=$(cd "$(dirname "$0")"; pwd -P)  # should work on mac
@@ -7,7 +7,7 @@ HERE=${BASH_SOURCE%/*}  # should work on ubuntu
 repo_path=$HERE
 venv_path=$HERE/.venv
 
-gtd() {
+gxtk() {
     if [ ! -d $venv_path ]; then
         virtualenv -p python3 $venv_path
         . $venv_path/bin/activate

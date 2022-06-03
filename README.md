@@ -5,7 +5,7 @@ Scripts for querying the galaxy tool panel
 
 Filter a list of all installed tools on Galaxy based on repository name or tool display name.  Results are returned as
 tab separated values.  If an admin API key is supplied and the -e flag included, the result includes the name of the
-tool's conda environment if there is one.
+tool's conda environment.
 
 ```
 usage: get_tool_details.py [-h] [-n NAME] [-N DISPLAY_NAME] [-v VERSION] [-o OWNER] [-z] [--all] [-e] [-g GALAXY_URL] [-a API_KEY] [-p PROFILE] [-t TOOL_IDS [TOOL_IDS ...]] [-s]
