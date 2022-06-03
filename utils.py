@@ -47,6 +47,9 @@ class ConfigClient(bioblend_ConfigClient):
         url = self._make_url().replace('configuration', 'whoami')
         return self._get(url=url)
 
+    def decode_id(self, object_id):
+        url = self._make_url(object_id).replace('configuration', 'configuration/decode')
+        return self._get(url=url)
 
 def get_tool_client(galaxy_instance):
     return ToolClient(galaxy_instance)
