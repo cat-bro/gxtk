@@ -1,4 +1,4 @@
-# tool-panel-scripts
+## gxtk
 Scripts for querying the galaxy tool panel
 
 ### Installation:
