@@ -36,7 +36,7 @@ optional arguments:
   -s, --sleep           Sleep for 0.5s after fetching requirements
 ```
 
-### Example: find all versions of bwameth on https://dev.usegalaxy.org.au:
+##### Example: find all versions of bwameth on https://dev.usegalaxy.org.au:
 ```
 $ python get_tool_details.py -g https://dev.usegalaxy.org.au -n bwameth
 Display Name	Repo name	Owner	Revision	Version	Section Label	Tool ID
@@ -44,7 +44,7 @@ bwameth	bwameth	iuc	b4e6819b25ef	0.2.2+galaxy1	Epigenetics	toolshed.g2.bx.psu.ed
 bwameth	bwameth	iuc	62f5fab76dfb	0.2.3+galaxy0	Epigenetics	toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/0.2.3+galaxy0
 ```
 
-### Example: find all versions of bwameth on https://dev.usegalaxy.org.au with name of conda virtual environment (requires admin api key):
+##### Example: find all versions of bwameth on https://dev.usegalaxy.org.au with name of conda virtual environment (requires admin api key):
 ```
 $ python get_tool_details.py -g https://dev.usegalaxy.org.au -a <admin api key> -n bwameth -e
 Display Name	Repo name	Owner	Revision	Version	Section Label	Tool ID	Environment
