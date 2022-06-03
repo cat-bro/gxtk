@@ -5,6 +5,10 @@ Scripts for querying the galaxy tool panel
 
 Clone this repository.  Optionally add the line `source <path to .bashrc_helper>` to .bashrc/.zshrc to be able to use the alias `gxtk` in place of get_tool_details.py.
 
+#### profiles.yml
+
+Copy profiles.yml.sample to profiles.yml to use `-p <profile>` in command line in place of `-g <galaxy_url> -a <api_key>`.   
+
 **get_tool_details.py**
 
 Filter a list of all installed tools on Galaxy based on repository name or tool display name.  Results are returned as
@@ -48,7 +52,7 @@ bwameth	bwameth	iuc	b4e6819b25ef	0.2.2+galaxy1	Epigenetics	toolshed.g2.bx.psu.ed
 bwameth	bwameth	iuc	62f5fab76dfb	0.2.3+galaxy0	Epigenetics	toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/0.2.3+galaxy0
 ```
 
-##### Example: find all versions of bwameth on https://dev.usegalaxy.org.au with name of conda virtual environment (requires admin api key):
+##### Example: find all versions of bwameth on Galaxy Australia Dev with name of conda virtual environment (requires admin api key):
 ```
 $ gxtk -g https://dev.usegalaxy.org.au -a <admin api key> -n bwameth -e
 Display Name	Repo name	Owner	Revision	Version	Section Label	Tool ID	Environment
