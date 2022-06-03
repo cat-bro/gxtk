@@ -10,7 +10,7 @@ def main():
     parser.add_argument('-n', '--name', help='Tool repository name')
     parser.add_argument('-N', '--display_name', help='User facing tool name')
     parser.add_argument('-v', '--version', help='Version')
-    parser.add_argument('-o', '--owner', help='Owner')
+    parser.add_argument('-o', '--owner', nargs='+', help='Show tools from one or more owners')
     parser.add_argument('-z', '--fuzz', action='store_true', help='Match substring of repository name from search term')
     parser.add_argument('--all', help='Show all installed tools', action='store_true')
     parser.add_argument('-e', '--env', help='Show virtual environment name (admin API key required)', action='store_true')
@@ -48,7 +48,7 @@ def main():
         if version:
             tools = [t for t in tools if version in t['version']]
         if owner:
-            tools = [t for t in tools if t.get('tool_shed_repository') and owner == t['tool_shed_repository']['owner']]
+            tools = [t for t in tools if t.get('tool_shed_repository') and t['tool_shed_repository']['owner'] in owner]
     elif tool_ids:
         tools = [t for t in tools if t['id'] in tool_ids]
     if not tools:
