@@ -7,7 +7,7 @@ Clone this repository.  Optionally add the line `source <path to .bashrc_helper>
 
 #### profiles.yml
 
-Copy profiles.yml.sample to profiles.yml to use `-p <profile>` in command line in place of `-g <galaxy_url> -a <api_key>`.   
+Copy profiles.yml.sample to profiles.yml to use `-p <profile>` in command line in place of `-g <galaxy_url> -a <api_key>`.  The default profile will be used when none of `--galaxy_url (-g)`, `--api_key (-a)` or `--profile (p)` are provided. 
 
 **get_tool_details.py**
 
