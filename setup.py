@@ -13,6 +13,9 @@ setuptools.setup(
     long_description_content_type = 'text/markdown',
     url = 'https://github.com/cat-bro/gxtk',
     packages=setuptools.find_packages(),
+    install_requires=[
+        "bioblend>=0.17.0",  # TODO: parse requirements.txt file
+    ],
     entry_points={
         'console_scripts': [
             'gxtk = src.gxtk:main'
