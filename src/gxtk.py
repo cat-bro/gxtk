@@ -1,8 +1,8 @@
 import argparse
 import time
 
-from get_tool_env import get_env_from_requirements
-from utils import get_galaxy_instance, user_is_admin
+from .get_tool_env import get_env_from_requirements
+from .utils import get_galaxy_instance, user_is_admin
 
 
 def main():
