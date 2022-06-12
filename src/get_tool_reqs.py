@@ -1,7 +1,7 @@
 import argparse
-from utils import get_galaxy_instance, user_is_admin
+from .utils import get_galaxy_instance, user_is_admin
 
-from get_tool_env import get_env_from_requirements
+from .get_tool_env import get_env_from_requirements
 
 def main():
     parser = argparse.ArgumentParser(description='Get requirements for a tool installed on Galaxy (admin only)')

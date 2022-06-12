@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from utils import get_galaxy_instance, user_is_admin
+from .utils import get_galaxy_instance, user_is_admin
 
 
 def main():
