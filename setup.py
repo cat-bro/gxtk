@@ -14,6 +14,8 @@ setuptools.setup(
     url = 'https://github.com/cat-bro/gxtk',
     packages=setuptools.find_packages(),
     install_requires=[
+        "galaxy-tool-util",
+        "pysam",
         "bioblend>=0.17.0",  # TODO: parse requirements.txt file
     ],
     entry_points={

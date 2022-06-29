@@ -3,10 +3,18 @@ import time
 
 from .get_tool_env import get_env_from_requirements
 from .utils import get_galaxy_instance, user_is_admin
+from .test import run_tool_test
 
+from .get_tool_reqs import get_requirement_str_for_tool_id
+
+# reload
+# delete-histories
+# test
+# conda-commands
 
 def main():
     parser = argparse.ArgumentParser(description='Search for tools on Galaxy using repository name or tool display name')
+    parser.add_argument('action', help='find, show-requirements')
     parser.add_argument('-n', '--name', help='Tool repository name')
     parser.add_argument('-N', '--display_name', help='User facing tool name')
     parser.add_argument('-v', '--version', help='Version')
@@ -19,9 +27,21 @@ def main():
     parser.add_argument('-a', '--api_key', help='Galaxy api key')
     parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
     parser.add_argument('-t', '--tool_ids', nargs='+', help='One or more tool ids to match exactly')
+    parser.add_argument('--tags', nargs='+', help='Tags for test history')
     parser.add_argument('-s', '--sleep', action='store_true', help='Sleep for 0.5s after fetching requirements')
 
     args = parser.parse_args()
+    galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
+ 
+    if args.action == 'show-requirements':
+        print(get_requirement_str_for_tool_id(galaxy_instance, args.tool_ids[0], False))
+        return
+
+    if args.action == 'test':
+        run_tool_test(galaxy_instance, args.tool_ids[0], tags=args.tags)
+        return
+
+
     name = args.name
     display_name = args.display_name
     version = args.version
@@ -32,7 +52,6 @@ def main():
     biotools = args.biotools
     all = args.all
 
-    galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
     tools = [t for t in galaxy_instance.tools.get_tools()]  # shed tools only.  # TODO: allow non-shed-tools to be returned here
 
     if not all and not tool_ids:

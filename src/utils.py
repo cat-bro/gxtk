@@ -5,7 +5,8 @@ from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.tools import ToolClient as bioblend_ToolClient
 from bioblend.galaxy.config import ConfigClient as bioblend_ConfigClient
 
-profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
+default_profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
+profiles_path = os.getenv('GXTK_PROFILE_PATH', default_profiles_path)
 
 def get_galaxy_instance(url, api_key, profile):
     # If the galaxy_url is not provided, the profiles file must exist.
