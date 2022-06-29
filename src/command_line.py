@@ -1,0 +1,60 @@
+import argparse
+
+def common_args():
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
+    parser.add_argument('-a', '--api_key', help='Galaxy api key')
+    parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
+    return parser
+
+def command_line_parser():
+    command_line_common = common_args()
+    # parser = argparse.ArgumentParser(description='Search for tools on Galaxy using repository name or tool display name')
+    command_parser = argparse.ArgumentParser()
+    subparsers = command_parser.add_subparsers()
+
+    find_parser = subparsers.add_parser(
+        'find',
+        help='', # TODO: add help
+        parents=[command_line_common],
+    )
+
+    delete_histories_parser = subparsers.add_parser(
+        'delete-histories',
+        help='', # TODO: add help
+        parents=[command_line_common],
+    )
+
+    test_parser = subparsers.add_parser(
+        'test',
+        help='', # TODO: add help
+        parents=[command_line_common],
+    )
+
+    find_parser.set_defaults(action='find')
+    delete_histories_parser.set_defaults(action='delete-histories')
+    test_parser.set_defaults(action='test')
+
+    for parser in [find_parser]:
+        #parser.add_argument('action', help='find, show-requirements')
+        parser.add_argument('-n', '--name', help='Tool repository name')
+        parser.add_argument('-N', '--display_name', help='User facing tool name')
+        parser.add_argument('-v', '--version', help='Version')
+        parser.add_argument('-o', '--owner', nargs='+', help='Show tools from one or more owners')
+        parser.add_argument('-z', '--fuzz', action='store_true', help='Match substring of repository name from search term')
+        parser.add_argument('--all', help='Show all installed tools', action='store_true')
+        parser.add_argument('-e', '--env', help='Show virtual environment name (admin API key required)', action='store_true')
+        parser.add_argument('-b', '--biotools', help='Show bio.tools IDs in output', action='store_true')  
+        parser.add_argument('-t', '--tool_ids', nargs='+', help='One or more tool ids to match exactly')
+        parser.add_argument('--tags', nargs='+', help='Tags for test history')
+        parser.add_argument('-s', '--sleep', action='store_true', help='Sleep for 0.5s after fetching requirements') # TODO: get rid of this
+
+    for parser in [test_parser]:
+        parser.add_argument('-t', '--tool_ids', nargs='+', help='One or more tool ids to match exactly')
+        parser.add_argument('--tags', nargs='+', help='Tags for test history')
+
+    for parser in [delete_histories_parser]:
+        parser.add_argument('--name_startswith', help='History name prefix')
+        parser.add_argument('--days_since_updated', type=int, help='Last updated more than X days ago')
+        parser.add_argument('--delete_all', action='store_true', help='In the absence of conditions include this argument to delete all histories')
+        parser.add_argument('--skip_wait', action='store_true', help='Do not wait while large histories are deleted, allow them to delete in the background')
