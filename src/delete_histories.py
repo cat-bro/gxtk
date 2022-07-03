@@ -1,7 +1,7 @@
 import argparse
 import time
 import datetime as dt
-from utils import get_galaxy_instance, get_config_client
+from .utils import get_galaxy_instance, get_config_client
 from bioblend import ConnectionError
 
 timeout = 60*60*6 # will time out eventually after waiting 6 hours for a single history
@@ -11,25 +11,30 @@ wait_patiently = True # TODO make this a parameter
 """
 Delete histories belonging to user.  This will wait for small histories that can be deleted within 2-3 minutes.
 For histories that take longer than nginx takes to time out, the script waits until the history has state 'deleted'
+unless the --skip_wait flag is included in the command.
 """
 
 def more_than_x_days_old(history, days):
     update_time = dt.datetime.strptime(history['update_time'], datetime_format)
-    if dt.datetime.now() - update_time > dt.timedelta(days=days):
+    if dt.datetime.utcnow() - update_time > dt.timedelta(days=days):
         return True
     return False
 
 
-def main():
-    parser = argparse.ArgumentParser(description='Delete user histories')
-    parser.add_argument('--name_startswith', help='History name prefix')
-    parser.add_argument('--days_since_updated', type=int, help='Last updated more than X days ago')
-    parser.add_argument('--delete_all', action='store_true', help='In the absence of conditions include this argument to delete all histories')
-    parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
-    parser.add_argument('-a', '--api_key', help='Galaxy api key')
-    parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
-    args = parser.parse_args()
+# def main():
+#     parser = argparse.ArgumentParser(description='Delete user histories')
+#     parser.add_argument('--name_startswith', help='History name prefix')
+#     parser.add_argument('--days_since_updated', type=int, help='Last updated more than X days ago')
+#     parser.add_argument('--delete_all', action='store_true', help='In the absence of conditions include this argument to delete all histories')
+#     parser.add_argument('--skip_wait', action='store_true', help='Do not wait while large histories are deleted, allow them to delete in the background')
+#     parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
+#     parser.add_argument('-a', '--api_key', help='Galaxy api key')
+#     parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
+#     args = parser.parse_args()
+#     delete_histories(args)
 
+def delete_histories(galaxy_instance, args):
+    wait_patiently = not args.skip_wait
     if not (args.name_startswith or args.days_since_updated or args.delete_all):
         print("Command needs one of --name_startswith, --days_since_updated or --delete_all")
         return
@@ -38,10 +43,7 @@ def main():
         print("--delete_all cannot be combined with filtering conditions")
         return
 
-    galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
-    config_client = get_config_client(galaxy_instance)
-
-    user = config_client.whoami()
+    user = galaxy_instance.config.whoami()
     user_email = user['email']
     user_id = user['id']
 
@@ -55,7 +57,7 @@ def main():
         histories = list(filter(lambda x: more_than_x_days_old(x, args.days_since_updated), histories))
 
     num_histories_to_delete = len(histories)
-    print(f'{num_histories_to_delete} to delete for user {user_email}')
+    print(f'{num_histories_to_delete} histories to delete for user {user_email}')
 
     for x, history in enumerate(histories):
         # TODO: wait for galaxy here
@@ -94,5 +96,5 @@ def main():
             print(f'{x}/{num_histories_to_delete}')
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

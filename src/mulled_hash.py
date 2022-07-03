@@ -4,13 +4,17 @@ import argparse
 # Adapted from this gist by natefoo: https://gist.github.com/natefoo/7a13e5bf6f4bbf961db73a3d6e9f9e1c
 # and https://github.com/galaxyproject/galaxy/blob/release_21.01/lib/galaxy/tool_util/deps/conda_util.py
 
-# Generate Galaxy Conda mulled hashes from a list of requirements
+# Generate a galaxy conda mulled hash (v1) from a list of requirements
 
 
 def main():
     parser = argparse.ArgumentParser(description='Get a Galaxy style virtual environment name from a list of conda requirements')
     parser.add_argument('requirements', help='One or more conda requirements e.g. balloon=1.1 or fish=3.2b', nargs='+')
     args = parser.parse_args()
+    mulled_hash(args)
+
+
+def mulled_hash(args):
     targets = []
     for req in args.requirements:
         if '=' in req:

@@ -4,43 +4,81 @@ import time
 from .get_tool_env import get_env_from_requirements
 from .utils import get_galaxy_instance, user_is_admin
 from .test import run_tool_test
+from .delete_histories import delete_histories
+from .conda_commands import print_conda_commands
+from .mulled_hash import mulled_hash
 
 from .get_tool_reqs import get_requirement_str_for_tool_id
 
+from .command_line import command_line_parser
 # reload
 # delete-histories
 # test
 # conda-commands
 
 def main():
-    parser = argparse.ArgumentParser(description='Search for tools on Galaxy using repository name or tool display name')
-    parser.add_argument('action', help='find, show-requirements')
-    parser.add_argument('-n', '--name', help='Tool repository name')
-    parser.add_argument('-N', '--display_name', help='User facing tool name')
-    parser.add_argument('-v', '--version', help='Version')
-    parser.add_argument('-o', '--owner', nargs='+', help='Show tools from one or more owners')
-    parser.add_argument('-z', '--fuzz', action='store_true', help='Match substring of repository name from search term')
-    parser.add_argument('--all', help='Show all installed tools', action='store_true')
-    parser.add_argument('-e', '--env', help='Show virtual environment name (admin API key required)', action='store_true')
-    parser.add_argument('-b', '--biotools', help='Show bio.tools IDs in output', action='store_true')  
-    parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
-    parser.add_argument('-a', '--api_key', help='Galaxy api key')
-    parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
-    parser.add_argument('-t', '--tool_ids', nargs='+', help='One or more tool ids to match exactly')
-    parser.add_argument('--tags', nargs='+', help='Tags for test history')
-    parser.add_argument('-s', '--sleep', action='store_true', help='Sleep for 0.5s after fetching requirements')
+    parser = command_line_parser()
+    # parser = argparse.ArgumentParser(description='Search for tools on Galaxy using repository name or tool display name')
+    # parser.add_argument('action', help='find, show-requirements')
+    # parser.add_argument('-n', '--name', help='Tool repository name')
+    # parser.add_argument('-N', '--display_name', help='User facing tool name')
+    # parser.add_argument('-v', '--version', help='Version')
+    # parser.add_argument('-o', '--owner', nargs='+', help='Show tools from one or more owners')
+    # parser.add_argument('-z', '--fuzz', action='store_true', help='Match substring of repository name from search term')
+    # parser.add_argument('--all', help='Show all installed tools', action='store_true')
+    # parser.add_argument('-e', '--env', help='Show virtual environment name (admin API key required)', action='store_true')
+    # parser.add_argument('-b', '--biotools', help='Show bio.tools IDs in output', action='store_true')  
+    # parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
+    # parser.add_argument('-a', '--api_key', help='Galaxy api key')
+    # parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
+    # parser.add_argument('-t', '--tool_ids', nargs='+', help='One or more tool ids to match exactly')
+    # parser.add_argument('--tags', nargs='+', help='Tags for test history')
+    # parser.add_argument('-s', '--sleep', action='store_true', help='Sleep for 0.5s after fetching requirements')
 
     args = parser.parse_args()
-    galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
+
+    if args.require_galaxy:
+        galaxy_instance = get_galaxy_instance(args.galaxy_url, args.api_key, args.profile)
  
-    if args.action == 'show-requirements':
-        print(get_requirement_str_for_tool_id(galaxy_instance, args.tool_ids[0], False))
-        return
+    if args.require_login:
+        if not galaxy_instance.key:
+            print(f'Login required for {args.action} action')
+            return
+
+    if args.require_admin:
+        if not user_is_admin(galaxy_instance):
+            print(f'Non-admin accounts cannot perform this action: {args.action}')
+            return
+
+    # if args.action == 'show-requirements':
+    #     print(get_requirement_str_for_tool_id(galaxy_instance, args.tool_ids[0], False))
+    #     return
 
     if args.action == 'test':
         run_tool_test(galaxy_instance, args.tool_ids[0], tags=args.tags)
         return
 
+    if args.action == 'delete-histories':
+        delete_histories(galaxy_instance, args)
+        return
+
+    if args.action == 'find':
+        get_tool_details(galaxy_instance, args)
+        return
+
+    if args.action == 'conda-commands':
+        print_conda_commands(galaxy_instance, args)
+        return
+
+    if args.action == 'mulled-hash':
+        mulled_hash(args)
+        return
+
+    # if args.action == 'delete-histories':
+    #     delete_histories(galaxy_instance, args.tool_ids[0], tags=args.tags)
+    #     return
+
+def get_tool_details(galaxy_instance, args):
 
     name = args.name
     display_name = args.display_name
