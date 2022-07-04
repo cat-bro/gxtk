@@ -1,4 +1,4 @@
-# Source this file from .bashrc/.zshrc to be able to run 'python get_tool_details.py' as gtd, for example
+# Source this file from .bashrc/.zshrc to be able to run 'python gxtk.py' as gxtk, for example
 # gxtk -n bowtie2
 
 HERE=${BASH_SOURCE%/*}  # should work on ubuntu
@@ -13,5 +13,5 @@ gxtk() {
         . $venv_path/bin/activate
         pip install -r $repo_path/requirements.txt
     fi
-    $venv_path/bin/python $repo_path/get_tool_details.py "$@"
+    $venv_path/bin/python $repo_path/gxtk.py "$@"
 }

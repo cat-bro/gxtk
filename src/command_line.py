@@ -1,11 +1,5 @@
 import argparse
 
-# login_level_required = {
-#     'admin': 'com'
-# }
-admin_required_actions = ['conda-commands', 'reload']
-login_required_actions = ['test']
-
 def common_args():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
@@ -15,7 +9,6 @@ def common_args():
 
 def command_line_parser():
     command_line_common = common_args()
-    # parser = argparse.ArgumentParser(description='Search for tools on Galaxy using repository name or tool display name')
     command_parser = argparse.ArgumentParser()
     subparsers = command_parser.add_subparsers()
 
@@ -63,7 +56,6 @@ def command_line_parser():
     conda_commands_parser.set_defaults(action='conda-commands', require_galaxy=True, require_login=True, require_admin=True)
 
     for parser in [find_parser]:
-        #parser.add_argument('action', help='find, show-requirements')
         parser.add_argument('-n', '--name', help='Tool repository name')
         parser.add_argument('-N', '--display_name', help='User facing tool name')
         parser.add_argument('-v', '--version', help='Version')
@@ -84,6 +76,7 @@ def command_line_parser():
         parser.add_argument('--days_since_updated', type=int, help='Last updated more than X days ago')
         parser.add_argument('--delete_all', action='store_true', help='In the absence of conditions include this argument to delete all histories')
         parser.add_argument('--skip_wait', action='store_true', help='Do not wait while large histories are deleted, allow them to delete in the background')
+        parser.add_argument('-y', '--yes', action='store_true', help='Skip confirmation step prior to deleting histories')
 
     for parser in [conda_commands_parser]:
         parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)

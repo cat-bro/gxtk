@@ -58,6 +58,10 @@ def delete_histories(galaxy_instance, args):
 
     num_histories_to_delete = len(histories)
     print(f'{num_histories_to_delete} histories to delete for user {user_email}')
+    if not args.yes:
+        answer = input("Type y/yes to and enter to continue")
+        if not answer in ['y', 'yes']:
+            raise Exception('Stopping in the absence of user confirmation')
 
     for x, history in enumerate(histories):
         # TODO: wait for galaxy here

@@ -6,14 +6,6 @@ import argparse
 
 # Generate a galaxy conda mulled hash (v1) from a list of requirements
 
-
-def main():
-    parser = argparse.ArgumentParser(description='Get a Galaxy style virtual environment name from a list of conda requirements')
-    parser.add_argument('requirements', help='One or more conda requirements e.g. balloon=1.1 or fish=3.2b', nargs='+')
-    args = parser.parse_args()
-    mulled_hash(args)
-
-
 def mulled_hash(args):
     targets = []
     for req in args.requirements:
@@ -45,7 +37,3 @@ def get_env_name(targets):
         return install_environment(targets[0])
     else:
         return 'mulled-v1-' + hash_conda_packages(targets)
-
-
-if __name__ == '__main__':
-    main()

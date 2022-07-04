@@ -46,10 +46,10 @@ class ToolClient(bioblend_ToolClient):
 
 class ConfigClient(bioblend_ConfigClient):
     def whoami(self):
-        url = self._make_url().replace('configuration', 'whoami')
+        url = self._make_url().replace('configuration', 'whoami')  # TODO: this is in bioblend 0.17.0 and can be removed here
         return self._get(url=url)
 
-    def decode_id(self, object_id):
+    def decode_id(self, object_id):  # TODO: add to bioblend
         url = self._make_url(object_id).replace('configuration', 'configuration/decode')
         return self._get(url=url)
 

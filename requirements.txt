@@ -1,1 +1,3 @@
-bioblend>=0.16.0
+galaxy-tool-util
+bioblend>=0.17.0
+pysam
