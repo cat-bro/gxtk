@@ -20,19 +20,6 @@ def more_than_x_days_old(history, days):
         return True
     return False
 
-
-# def main():
-#     parser = argparse.ArgumentParser(description='Delete user histories')
-#     parser.add_argument('--name_startswith', help='History name prefix')
-#     parser.add_argument('--days_since_updated', type=int, help='Last updated more than X days ago')
-#     parser.add_argument('--delete_all', action='store_true', help='In the absence of conditions include this argument to delete all histories')
-#     parser.add_argument('--skip_wait', action='store_true', help='Do not wait while large histories are deleted, allow them to delete in the background')
-#     parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
-#     parser.add_argument('-a', '--api_key', help='Galaxy api key')
-#     parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
-#     args = parser.parse_args()
-#     delete_histories(args)
-
 def delete_histories(galaxy_instance, args):
     wait_patiently = not args.skip_wait
     if not (args.name_startswith or args.days_since_updated or args.delete_all):

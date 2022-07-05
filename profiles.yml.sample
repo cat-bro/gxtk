@@ -1,12 +1,13 @@
 ---
-# profiles.yml.sample:
+# .gxtk.yml.sample:
 # copy this file to profiles.yml
 # store as many url/api_key combinations as you like.
 # each profile must have a url.  The api_key is optional
 # -p <profile-key> in get_tool_details.py etc can used instead of specifying galaxy url and api key
 # the default profile is loaded in the absence of -p (--profile), -g (--galaxy_url) or -a (--api_key) flags.
 
-default:
+__default: au
+au:
     url: https://usegalaxy.org.au
     api_key: a1b2c3d4
 eu:

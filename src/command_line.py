@@ -4,7 +4,8 @@ def common_args():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
     parser.add_argument('-a', '--api_key', help='Galaxy api key')
-    parser.add_argument('-p', '--profile', help='Key for profile set in profiles.yml')
+    parser.add_argument('-p', '--profile', help='Key for profile set in profiles yaml file')
+    parser.add_argument('--profiles_path', help='Path to profiles yaml file (default ~/.gxtk.yml')
     return parser
 
 def command_line_parser():
@@ -14,41 +15,57 @@ def command_line_parser():
 
     find_parser = subparsers.add_parser(
         'find',
-        help='', # TODO: add help
+        help="Filter tool list for a galaxy instance by properties including repository name, display name "
+        "and owner.  Default output is a tab separated table of tools.  Optional return fields include "
+        "bio.tools ID.  Admin users can include the tool's conda environment name (-e flag) in output.",
+        # TODO: add help
         parents=[command_line_common],
     )
 
     delete_histories_parser = subparsers.add_parser(
         'delete-histories',
-        help='', # TODO: add help
+        help="""
+Delete histories belonging to user.  This will wait for small histories that can be deleted within 2-3 minutes.
+For histories that take longer than nginx takes to time out, the script waits until the history has state 'deleted'
+unless the --skip_wait flag is included in the command.
+""",
         parents=[command_line_common],
     )
 
     test_parser = subparsers.add_parser(
         'test',
-        help='', # TODO: add help
+        help="Wrapper for galaxy-tool-util's galaxy-tool-test.", # TODO: add help
         parents=[command_line_common],
     )
 
     conda_commands_parser = subparsers.add_parser(
         'conda-commands',
-        help='', # TODO: add help
+        help="Prints out conda command for uninstalling and reinstalling an environment from "
+            "<conda dir>/envs directory where the conda base enviroment is active. "
+            "The purpose is for reinstalling environments where the environment has errors.",
         parents=[command_line_common],
     )
 
     reload_parser = subparsers.add_parser(
         'reload',
-        help='', # TODO: add help
+        help="Reload tool in panel", # TODO: add help
         parents=[command_line_common],
     )
     reload_parser.set_defaults(action='reload', require_galaxy=True, require_login=True, require_admin=True)
 
     mulled_hash_parser = subparsers.add_parser(
         'mulled-hash',
-        help='', # TODO: add help
+        help="Generate a galaxy conda mulled hash (v1) from a list of requirements", # TODO: add help
         parents=[],
     )
     mulled_hash_parser.set_defaults(action='mulled-hash', require_galaxy=False, require_login=False, require_admin=False)
+
+    show_keys_parser = subparsers.add_parser(
+        'show-keys',
+        help="List keys in profiles file (~/.gxtk.yml by default)", # TODO: add help
+        parents=[command_line_common],
+    )
+    show_keys_parser.set_defaults(action='show-keys', require_galaxy=False, require_login=False, require_admin=False)
 
     find_parser.set_defaults(action='find', require_galaxy=True, require_login=False, require_admin=False)
     delete_histories_parser.set_defaults(action='delete-histories', require_galaxy=True, require_login=True, require_admin=False)

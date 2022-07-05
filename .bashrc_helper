@@ -1,5 +1,5 @@
 # Source this file from .bashrc/.zshrc to be able to run 'python gxtk.py' as gxtk, for example
-# gxtk -n bowtie2
+# gxtk find -n bowtie2
 
 HERE=${BASH_SOURCE%/*}  # should work on ubuntu
 [ ! "$HERE" ] && HERE=$(cd "$(dirname "$0")"; pwd -P)  # should work on mac
@@ -13,5 +13,6 @@ gxtk() {
         . $venv_path/bin/activate
         pip install -r $repo_path/requirements.txt
     fi
+    export GXTK_FROM_BASHRC="True"
     $venv_path/bin/python $repo_path/gxtk.py "$@"
 }
