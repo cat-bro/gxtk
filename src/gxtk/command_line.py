@@ -85,8 +85,9 @@ unless the --skip_wait flag is included in the command.
         parser.add_argument('-s', '--sleep', action='store_true', help='Sleep for 0.5s after fetching requirements') # TODO: get rid of this
 
     for parser in [test_parser]:
-        parser.add_argument('-t', '--tool_ids', nargs='+', help='One or more tool ids to match exactly')
+        parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)  # TODO: other ways to specify tool
         parser.add_argument('--tags', nargs='+', help='Tags for test history')
+        parser.add_argument('--results_dir', help='base directory for tool test results (defaults to $GXTK_RESULTS_DIR)')
 
     for parser in [delete_histories_parser]:
         parser.add_argument('--name_startswith', help='History name prefix')
