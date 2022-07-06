@@ -1,13 +1,13 @@
-from src.find_tools import get_tool_details
-from src.utils import get_galaxy_instance, user_is_admin, show_keys
-from src.test import run_tool_test
-from src.delete_histories import delete_histories
-from src.conda_commands import print_conda_commands
-from src.mulled_hash import mulled_hash
+from functions.find_tools import get_tool_details
+from functions.utils import get_galaxy_instance, user_is_admin, show_keys
+from functions.test import run_tool_test
+from functions.delete_histories import delete_histories
+from functions.conda_commands import print_conda_commands
+from functions.mulled_hash import mulled_hash
 
-from src.requirements import get_requirement_str_for_tool_id
+from functions.requirements import get_requirement_str_for_tool_id
 
-from src.command_line import command_line_parser
+from functions.command_line import command_line_parser
 
 
 def main():
