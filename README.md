@@ -1,22 +1,35 @@
 ## gxtk
-Scripts for querying the galaxy tool panel
+Command line program querying the galaxy tool panel and performing miscellaneous tasks on galaxy instances.
 
 ### Installation:
 
-Clone this repository.  Optionally add the line `source <path to .bashrc_helper>` to .bashrc/.zshrc to be able to use the alias `gxtk` in place of get_tool_details.py.
+##### Alternative to installing with pip
 
-#### profiles.yml
+Clone this repository.  Optionally add the line `source <path to .bashrc_helper>` to .bashrc/.zshrc to be able to use bash function `gxtk` in place of gxtk.py.
 
-Copy profiles.yml.sample to profiles.yml to use `-p <profile>` in command line in place of `-g <galaxy_url> -a <api_key>`.  The default profile will be used when none of `--galaxy_url (-g)`, `--api_key (-a)` or `--profile (p)` are provided. 
+##### Install with pip
 
-**get_tool_details.py**
+pip install git+https://github.com/cat-bro/gxtk.git
+
+### Galaxy authentication and configuration file
+
+`gxtk` has command line options --galaxy_url (-g) and --api_key (-a) for logging into galaxy. 
+Alternatively the command line option --profile (-p) can be used to select a profile from 
+a configuration file with the path ~/.gxtk.yml. The location of the file can be overriden
+by setting the `GXTK_PROFILES_PATH` environment variable or using the --profiles_path
+command line option.  gxtk uses the `parsec` style of configuration, with a yaml key
+for each profile and either `url` or `url` and `key` set for profile.  The default profile
+key is set with the key `__default`.
+See [example profiles file](.gxtk.yml.sample)
+
+**gxtk find**
 
 Filter a list of all installed tools on Galaxy based on repository name or tool display name.  Results are returned as
 tab separated values.  If an admin API key is supplied and the -e flag included, the result includes the name of the
 tool's conda environment.
 
 ```
-usage: get_tool_details.py [-h] [-n NAME] [-N DISPLAY_NAME] [-v VERSION] [-o OWNER] [-z] [--all] [-e] [-g GALAXY_URL] [-a API_KEY] [-p PROFILE] [-t TOOL_IDS [TOOL_IDS ...]] [-s]
+usage: gxtk find [-h] [-n NAME] [-N DISPLAY_NAME] [-v VERSION] [-o OWNER] [-z] [--all] [-e] [-g GALAXY_URL] [-a API_KEY] [-p PROFILE] [-t TOOL_IDS [TOOL_IDS ...]] [-s]
 
 Search for tools on Galaxy using repository name or tool display name
 
@@ -46,15 +59,15 @@ optional arguments:
 
 ##### Example: find all versions of bwameth on Galaxy Australia Dev:
 ```
-$ gxtk -g https://dev.usegalaxy.org.au -n bwameth
+$ gxtk find -g https://dev.usegalaxy.org.au -n bwameth
 Display Name	Repo name	Owner	Revision	Version	Section Label	Tool ID
 bwameth	bwameth	iuc	b4e6819b25ef	0.2.2+galaxy1	Epigenetics	toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/0.2.2+galaxy1
 bwameth	bwameth	iuc	62f5fab76dfb	0.2.3+galaxy0	Epigenetics	toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/0.2.3+galaxy0
 ```
 
-##### Example: find all versions of bwameth on Galaxy Australia Dev with name of conda virtual environment (requires admin api key):
+##### Example: find conda environment names for bwameth tools on Galaxy Australia Dev(requires admin api key):
 ```
-$ gxtk -g https://dev.usegalaxy.org.au -a <admin api key> -n bwameth -e
+$ gxtk find -g https://dev.usegalaxy.org.au -a <admin api key> -n bwameth -e
 Display Name	Repo name	Owner	Revision	Version	Section Label	Tool ID	Environment
 bwameth	bwameth	iuc	b4e6819b25ef	0.2.2+galaxy1	Epigenetics	toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/0.2.2+galaxy1	__bwameth@0.2.2
 bwameth	bwameth	iuc	62f5fab76dfb	0.2.3+galaxy0	Epigenetics	toolshed.g2.bx.psu.edu/repos/iuc/bwameth/bwameth/0.2.3+galaxy0	__bwameth@0.2.3
@@ -62,7 +75,7 @@ bwameth	bwameth	iuc	62f5fab76dfb	0.2.3+galaxy0	Epigenetics	toolshed.g2.bx.psu.ed
 
 ##### Find tools owned by qfabrepo or galaxy-australia on Galaxy Australia using --profile (-p) argument:
 ```
-$ gxtk -p au -o galaxy-australia qfabrepo
+$ gxtk find -p au -o galaxy-australia qfabrepo
 Display Name	Repo name	Owner	Revision	Version	Section Label	Tool ID
 Hapcut2	hapcut2	galaxy-australia	271eb7f4b8bc	1.3.3+galaxy0+ga1	Assembly	toolshed.g2.bx.psu.edu/repos/galaxy-australia/hapcut2/hapcut2/1.3.3+galaxy0+ga1
 Smudgeplot	smudgeplot	galaxy-australia	e53b0473d575	0.2.5+galaxy+1	Assembly	toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/0.2.5+galaxy+1

@@ -1,7 +1,5 @@
-import argparse
 import time
 import datetime as dt
-from .utils import get_galaxy_instance, get_config_client
 from bioblend import ConnectionError
 
 timeout = 60*60*6 # will time out eventually after waiting 6 hours for a single history
@@ -85,7 +83,3 @@ def delete_histories(galaxy_instance, args):
 
         if x > 0 and x%20 == 0 or x == num_histories_to_delete - 1:
             print(f'{x}/{num_histories_to_delete}')
-
-
-# if __name__ == "__main__":
-#     main()

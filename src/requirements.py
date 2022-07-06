@@ -5,7 +5,7 @@ def get_env_from_requirements(requirements, basename=True):
     if not requirements:
         return '<No requirements>'
     else:
-        env_path = requirements[0].get('env_path')
+        env_path = requirements[0].get('environment_path')
         if not env_path:
             return '<No env>'
         else:

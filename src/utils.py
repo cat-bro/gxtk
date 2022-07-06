@@ -8,7 +8,7 @@ from bioblend.galaxy.config import ConfigClient as bioblend_ConfigClient
 
 # default_profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
 default_profiles_path = os.path.expanduser('~/.gxtk.yml')
-profiles_file_path = os.getenv('GXTK_PROFILE_PATH', default_profiles_path)
+profiles_file_path = os.getenv('GXTK_PROFILES_PATH', default_profiles_path)
 
 link_to_sample_file = '' # TODO: Commit things and fill this in.
 check_profiles_example_message = 'See {link_to_sample_file} for an example of the expected format.'
