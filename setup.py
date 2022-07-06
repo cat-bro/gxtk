@@ -17,8 +17,8 @@ setuptools.setup(
     long_description = long_description,
     long_description_content_type = 'text/markdown',
     url = 'https://github.com/cat-bro/gxtk',
-    packages=setuptools.find_packages(),
-    install_requires=['.', 'src'],
+    packages=['.', 'src'],
+    install_requires=install_requires,
     entry_points={
         'console_scripts': [
             'gxtk = gxtk:main'
