@@ -22,8 +22,7 @@ setuptools.setup(
     install_requires=install_requires,
     entry_points={
         'console_scripts': [
-            'gxtk = src.gxtk.gxtk:main',
-            'wtf = gxtk.gxtk:main',
+            'gxtk = gxtk.gxtk:main',
         ]
     },
 )
