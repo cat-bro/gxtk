@@ -1,13 +1,13 @@
-from src.find_tools import get_tool_details
-from src.utils import get_galaxy_instance, user_is_admin, show_keys
-from src.test import run_tool_test
-from src.delete_histories import delete_histories
-from src.conda_commands import print_conda_commands
-from src.mulled_hash import mulled_hash
+from wayuphi.find_tools import get_tool_details
+from wayuphi.utils import get_galaxy_instance, user_is_admin, show_keys
+from wayuphi.test import run_tool_test
+from wayuphi.delete_histories import delete_histories
+from wayuphi.conda_commands import print_conda_commands
+from wayuphi.mulled_hash import mulled_hash
 
-from src.requirements import get_requirement_str_for_tool_id
+from wayuphi.requirements import get_requirement_str_for_tool_id
 
-from src.command_line import command_line_parser
+from wayuphi.command_line import command_line_parser
 
 
 def main():
