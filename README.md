@@ -7,10 +7,6 @@ Command line program querying the galaxy tool panel and performing miscellaneous
 
 Clone this repository.  Optionally add the line `source <path to .bashrc_helper>` to .bashrc/.zshrc to be able to use bash function `gxtk` in place of gxtk.py.
 
-##### Install with pip
-
-pip install git+https://github.com/cat-bro/gxtk.git
-
 ### Galaxy authentication and configuration file
 
 `gxtk` has command line options --galaxy_url (-g) and --api_key (-a) for logging into galaxy. 
