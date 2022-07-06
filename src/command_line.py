@@ -5,7 +5,7 @@ def common_args():
     parser.add_argument('-g', '--galaxy_url', help='URL of Galaxy instance')
     parser.add_argument('-a', '--api_key', help='Galaxy api key')
     parser.add_argument('-p', '--profile', help='Key for profile set in profiles yaml file')
-    parser.add_argument('--profiles_path', help='Path to profiles yaml file (default ~/.gxtk.yml')
+    parser.add_argument('--profiles_path', help='Path to profiles yaml file (default ~/.gxtk.yml)')
     return parser
 
 def command_line_parser():
