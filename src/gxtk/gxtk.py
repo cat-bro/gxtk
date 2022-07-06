@@ -37,7 +37,7 @@ def main():
     #     return
 
     if args.action == 'test':
-        run_tool_test(galaxy_instance, args.tool_ids[0], tags=args.tags)
+        run_tool_test(galaxy_instance, args)
         return
 
     if args.action == 'delete-histories':

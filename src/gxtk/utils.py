@@ -53,6 +53,17 @@ def get_profiles(profiles_path):
     return profiles   
 
 
+def get_profile_key_or_url(url, api_key, profile, profiles_path):
+    profiles_path = get_profiles_path(profiles_path)
+    if profile:
+        return profile
+    elif url:
+        return url
+    else:
+        profiles = get_profiles(profiles_path)
+        return profiles.get('default', profiles.get('__default'))
+
+
 def show_keys(profiles_path):
     profiles_path = get_profiles_path(profiles_path)  # TODO: fix overwriting argument variable
     profiles = get_profiles(profiles_path)
