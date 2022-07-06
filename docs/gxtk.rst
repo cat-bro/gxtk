@@ -1,12 +1,12 @@
 gxtk
 =================
 
-.. automodule :: gxtk
+.. automodule :: src.gxtk.main
 
 Usage
 ----------
 
 .. argparse::
-   :module: gxtk
+   :module: src.gxtk.main
    :func: command_line_parser
    :prog: gxtk

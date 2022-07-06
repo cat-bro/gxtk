@@ -1,4 +1,4 @@
-from src.gxtk.gxtk import main as gxtk_main
+from src.gxtk.main import main as gxtk_main
 
 # Script for .bashrc_helper to access src/gxtk/gxtk.py
 
