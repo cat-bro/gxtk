@@ -14,5 +14,5 @@ gxtk() {
         pip install -r $repo_path/requirements.txt
     fi
     export GXTK_FROM_BASHRC="True"
-    $venv_path/bin/python $repo_path/gxtk.py "$@"
+    $venv_path/bin/python $repo_path/src/gxtk.py "$@"
 }
