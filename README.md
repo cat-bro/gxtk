@@ -1,5 +1,6 @@
 ## gxtk
 Command line program querying the galaxy tool panel and performing miscellaneous tasks on galaxy instances.
+[gxtk docs](https://gxtk.readthedocs.io/en/latest/gxtk.html#)
 
 ### Installation:
 
