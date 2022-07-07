@@ -22,6 +22,29 @@ def command_line_parser():
         parents=[command_line_common],
     )
 
+    reload_parser = subparsers.add_parser(
+        'reload',
+        help="Reload tool in panel", # TODO: add help
+        parents=[command_line_common],
+    )
+    reload_parser.set_defaults(action='reload', require_galaxy=True, require_login=True, require_admin=True)
+
+    conda_commands_parser = subparsers.add_parser(
+        'conda-commands',
+        help="Prints out conda command for uninstalling and reinstalling an environment from "
+            "<conda dir>/envs directory where the conda base enviroment is active. "
+            "The purpose is for reinstalling environments where the environment has errors.",
+        parents=[command_line_common],
+    )
+
+    mulled_hash_parser = subparsers.add_parser(
+        'mulled-hash',
+        help="Generate a galaxy conda mulled hash (v1) from a list of requirements", # TODO: add help
+        parents=[],
+    )
+    mulled_hash_parser.set_defaults(action='mulled-hash', require_galaxy=False, require_login=False, require_admin=False)
+
+
     delete_histories_parser = subparsers.add_parser(
         'delete-histories',
         help="""
@@ -38,27 +61,12 @@ unless the --skip_wait flag is included in the command.
         parents=[command_line_common],
     )
 
-    conda_commands_parser = subparsers.add_parser(
-        'conda-commands',
-        help="Prints out conda command for uninstalling and reinstalling an environment from "
-            "<conda dir>/envs directory where the conda base enviroment is active. "
-            "The purpose is for reinstalling environments where the environment has errors.",
+    decode_parser = subparsers.add_parser(
+        'decode',
+        help="Translate API ID to integer database ID (admin only).", # TODO: add help
         parents=[command_line_common],
     )
-
-    reload_parser = subparsers.add_parser(
-        'reload',
-        help="Reload tool in panel", # TODO: add help
-        parents=[command_line_common],
-    )
-    reload_parser.set_defaults(action='reload', require_galaxy=True, require_login=True, require_admin=True)
-
-    mulled_hash_parser = subparsers.add_parser(
-        'mulled-hash',
-        help="Generate a galaxy conda mulled hash (v1) from a list of requirements", # TODO: add help
-        parents=[],
-    )
-    mulled_hash_parser.set_defaults(action='mulled-hash', require_galaxy=False, require_login=False, require_admin=False)
+    decode_parser.set_defaults(action='decode', require_galaxy=True, require_login=True, require_admin=True)
 
     show_keys_parser = subparsers.add_parser(
         'show-keys',
@@ -105,6 +113,9 @@ unless the --skip_wait flag is included in the command.
 
     for parser in [mulled_hash_parser]:
         parser.add_argument('requirements', help='One or more conda requirements e.g. balloon=1.1 or fish=3.2b', nargs='+')
+
+    for parser in [decode_parser]:
+        parser.add_argument('api_id', help='Encoded hexadecimal object ID')
 
 
     return command_parser

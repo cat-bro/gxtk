@@ -1,3 +1,4 @@
+from .bioblend import decode_id
 from .find_tools import get_tool_details
 from .utils import get_galaxy_instance, user_is_admin, show_keys
 from .test import run_tool_test
@@ -58,6 +59,10 @@ def main():
 
     if args.action == 'show-keys':
         show_keys(args.profiles_path)
+        return
+
+    if args.action == 'decode':
+        decode_id(galaxy_instance, args)
         return
 
 

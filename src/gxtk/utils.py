@@ -94,7 +94,7 @@ class ConfigClient(bioblend_ConfigClient):
         return self._get(url=url)
 
     def decode_id(self, object_id):  # TODO: add to bioblend
-        url = self._make_url(object_id).replace('configuration', 'configuration/decode')
+        url = self._make_url(object_id).replace('/configuration', '/configuration/decode')
         return self._get(url=url)
 
 def get_tool_client(galaxy_instance):
@@ -127,7 +127,6 @@ class GxtkModule():
             if not user_is_admin(galaxy_instance):
                 print(f'Non-admin accounts cannot access this subcommand: {self.action}')
                 return
-
 
     def run():
         pass
