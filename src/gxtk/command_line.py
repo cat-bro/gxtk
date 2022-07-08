@@ -31,7 +31,7 @@ def command_line_parser():
 
     conda_commands_parser = subparsers.add_parser(
         'conda-commands',
-        help="Prints out conda command for uninstalling and reinstalling an environment from "
+        help="Print out conda command for uninstalling and reinstalling an environment from "
             "<conda dir>/envs directory where the conda base enviroment is active. "
             "The purpose is for reinstalling environments where the environment has errors.",
         parents=[command_line_common],
