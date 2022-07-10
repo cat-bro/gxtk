@@ -1,3 +1,6 @@
 galaxy-tool-util==21.9.2
 bioblend>=0.17.0
 pysam
+packaging
+tabulate
+edam-ontology
