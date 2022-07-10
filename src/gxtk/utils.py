@@ -6,6 +6,8 @@ from bioblend.galaxy import GalaxyInstance
 from bioblend.galaxy.tools import ToolClient as bioblend_ToolClient
 from bioblend.galaxy.config import ConfigClient as bioblend_ConfigClient
 
+from galaxy.tool_util.edam_util import load_edam_tree
+
 # default_profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
 default_profiles_path = os.path.expanduser('~/.gxtk.yml')
 profiles_file_path = os.getenv('GXTK_PROFILES_PATH', default_profiles_path)
@@ -103,6 +105,55 @@ def get_tool_client(galaxy_instance):
 
 def get_config_client(galaxy_instance):
     return ConfigClient(galaxy_instance)
+
+
+def indent(text, spaces):
+    lines = text.strip('\n').split('\n')
+    res = ''
+    indentation = ' ' * spaces
+    for line in lines:
+        res += f'{indentation}{line}\n'
+    return res
+
+class reversor:  # stackoverflow, add ref
+    def __init__(self, obj):
+        self.obj = obj
+
+    def __eq__(self, other):
+        return other.obj == self.obj
+
+    def __lt__(self, other):
+           return other.obj < self.obj
+
+class reverse_version_order(reversor):
+    def __lt__(self, other):
+           return (other.obj is None and self.obj is not None) or other.obj < self.obj
+
+class section_label_order(reversor): # TODO: fix this hack
+    def __lt__(self, other):
+           return other.obj > self.obj if not None in (self.obj, other.obj) else other.obj is None
+
+
+def get_panel_tools(galaxy_instance):
+    # get tool elements from /api/tools?in_panel=True
+    tools = []
+    panel = galaxy_instance.tools.get_tool_panel()
+    for x in panel:
+        if x['model_class'] == 'ToolSection':
+            tools.extend(x['elems'])
+    return tools
+
+
+def load_edam_dicts():  # TODO: return NamedTuple or something, return operations
+    edam = load_edam_tree()
+    labels_from_topic_id = {}
+    topic_ids_from_label = {}
+    for key in edam:
+        if key.startswith('topic'):
+            label = edam[key].get('label')
+            labels_from_topic_id[key] = label
+            topic_ids_from_label[label] = key
+    return (labels_from_topic_id, topic_ids_from_label)
 
 
 class GxtkModule():
