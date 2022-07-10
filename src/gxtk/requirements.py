@@ -30,3 +30,10 @@ def get_requirement_str_for_tool_id(galaxy_instance, tool_id, include_env=False)
 
 def get_req_str_from_requirements(requirements):
     return ' '.join(['%s=%s' % (r['name'], r['version']) for r in requirements])
+
+def show_requirements(galaxy_instance, args):
+    print(get_requirement_str_for_tool_id(galaxy_instance, args.tool_id))
+
+def show_env(galaxy_instance, args):
+    requirements = galaxy_instance.tools.requirements(args.tool_id)
+    print(get_env_from_requirements(requirements))

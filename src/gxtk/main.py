@@ -6,8 +6,7 @@ from .delete_histories import delete_histories
 from .conda_commands import print_conda_commands
 from .mulled_hash import mulled_hash
 
-from .requirements import get_requirement_str_for_tool_id
-
+from .requirements import show_requirements, show_env
 from .command_line import command_line_parser
 
 
@@ -32,10 +31,6 @@ def main():
         if not user_is_admin(galaxy_instance):
             print(f'Non-admin accounts cannot perform this command: {args.action}')
             return
-
-    # if args.action == 'show-requirements':
-    #     print(get_requirement_str_for_tool_id(galaxy_instance, args.tool_ids[0], False))
-    #     return
 
     if args.action == 'test':
         run_tool_test(galaxy_instance, args)
@@ -63,6 +58,14 @@ def main():
 
     if args.action == 'decode':
         decode_id(galaxy_instance, args)
+        return
+
+    if args.action == 'requirements':
+        show_requirements(galaxy_instance, args)
+        return
+
+    if args.action == 'env-name':
+        show_env(galaxy_instance, args)
         return
 
 

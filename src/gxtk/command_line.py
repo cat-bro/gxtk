@@ -29,6 +29,21 @@ def command_line_parser():
     )
     reload_parser.set_defaults(action='reload', require_galaxy=True, require_login=True, require_admin=True)
 
+    requirements_parser = subparsers.add_parser(
+        'requirements',
+        help="Print conda package requirements for tool ID (admin only).", # TODO: add help
+        parents=[command_line_common],
+    )
+    requirements_parser.set_defaults(action='requirements', require_galaxy=True, require_login=True, require_admin=True)
+
+    env_name_parser = subparsers.add_parser(
+        'env-name',
+        help="Print conda environment name for tool ID (admin only).", # TODO: add help
+        parents=[command_line_common],
+    )
+    env_name_parser.set_defaults(action='env-name', require_galaxy=True, require_login=True, require_admin=True)
+
+
     conda_commands_parser = subparsers.add_parser(
         'conda-commands',
         help="Print out conda command for uninstalling and reinstalling an environment from "
@@ -85,17 +100,16 @@ unless the --skip_wait flag is included in the command.
         parser.add_argument('-N', '--display_name', help='User facing tool name')
         parser.add_argument('-v', '--version', help='Version')
         parser.add_argument('-o', '--owner', nargs='+', help='Show tools from one or more owners')
+        parser.add_argument('--labels', nargs='+', help='Tool label')
         parser.add_argument('-z', '--fuzz', action='store_true', help='Match substring of repository name from search term')
+        parser.add_argument('-l', '--latest', action='store_true', help='Return latest versions of tools')
         parser.add_argument('--all', help='Show all installed tools', action='store_true')
         parser.add_argument('-e', '--env', help='Show virtual environment name (admin API key required)', action='store_true')
-        parser.add_argument('-b', '--biotools', help='Show bio.tools IDs in output', action='store_true')  
+        parser.add_argument('--biotools', nargs='*', help='Enter flag to show bio.tools IDs in output, add arguments to filter by bio.tool IDs', default=['DO_NOT_DISPLAY']) 
+        parser.add_argument('--edam_topics', nargs='*', help='Enter flag to show Edam topics in output, add arguments to filter by topics',  default=['DO_NOT_DISPLAY'])
         parser.add_argument('-t', '--tool_ids', nargs='+', help='One or more tool ids to match exactly')
-        parser.add_argument('-s', '--sleep', action='store_true', help='Sleep for 0.5s after fetching requirements') # TODO: get rid of this
-
-    for parser in [test_parser]:
-        parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)  # TODO: other ways to specify tool
-        parser.add_argument('--tags', nargs='+', help='Tags for test history')
-        parser.add_argument('--results_dir', help='base directory for tool test results (defaults to $GXTK_RESULTS_DIR)')
+        parser.add_argument('-s', '--section_label', help='Tool Section label')
+        parser.add_argument('-f', '--output-format', help='Format of output list plain(default)|tsv', default='plain')
 
     for parser in [delete_histories_parser]:
         parser.add_argument('--name_startswith', help='History name prefix')
@@ -104,9 +118,16 @@ unless the --skip_wait flag is included in the command.
         parser.add_argument('--skip_wait', action='store_true', help='Do not wait while large histories are deleted, allow them to delete in the background')
         parser.add_argument('-y', '--yes', action='store_true', help='Skip confirmation step prior to deleting histories')
 
-    for parser in [conda_commands_parser]:
+    for parser in [conda_commands_parser, env_name_parser, requirements_parser, test_parser]:
         parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)
+
+    for parser in [conda_commands_parser]:
         parser.add_argument('-m', '--mamba', action='store_true', help='Use mamba instead of conda in install command')
+
+    for parser in [test_parser]:
+        # parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)  # TODO: other ways to specify tool
+        parser.add_argument('--tags', nargs='+', help='Tags for test history')
+        parser.add_argument('--results_dir', help='base directory for tool test results (defaults to $GXTK_RESULTS_DIR)')
 
     for parser in [reload_parser]:
         parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)
