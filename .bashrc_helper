@@ -11,6 +11,7 @@ gxtk() {
     if [ ! -d $venv_path ]; then
         virtualenv -p python3 $venv_path
         . $venv_path/bin/activate
+        # TODO: integrity check here, must not install requirements if venv is not active
         pip install -r $repo_path/requirements.txt
     fi
     export GXTK_FROM_BASHRC="True"
