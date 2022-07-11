@@ -6,6 +6,9 @@ from .utils import get_profile_key_or_url
 from galaxy.tool_util.verify.script import build_case_references, test_tools, Results, setup_global_logger
 from galaxy.tool_util.verify.interactor import GalaxyInteractorApi
 
+datetime_local = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+datetime_utc = dt.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
 def get_history(self, history_name="test_history"):
     # Return the most recent non-deleted history matching the provided name
     filters = urllib.parse.urlencode({'q': 'name', 'qv': history_name, 'order': 'update_time'})
@@ -32,7 +35,7 @@ def run_tool_test(galaxy_instance, args):
     results_dir = args.results_dir
     profile_key = get_profile_key_or_url(args.galaxy_url, args.api_key, args.profile, args.profiles_path)
     galaxy_url = galaxy_instance.url.replace('api', '')
-    test_history_name = f'Test history for {tool_id} {dt.datetime.now().strftime("%Y/%m/%d %H/%M/%S")}'
+    test_history_name = f'Test history for {tool_id} {datetime_utc}'
     history = galaxy_instance.histories.create_history(name=test_history_name)
     if tags:
         galaxy_instance.histories.update_history(history['id'], tags=tags)
