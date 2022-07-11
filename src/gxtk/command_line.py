@@ -117,6 +117,7 @@ unless the --skip_wait flag is included in the command.
         parser.add_argument('--delete_all', action='store_true', help='In the absence of conditions include this argument to delete all histories')
         parser.add_argument('--skip_wait', action='store_true', help='Do not wait while large histories are deleted, allow them to delete in the background')
         parser.add_argument('-y', '--yes', action='store_true', help='Skip confirmation step prior to deleting histories')
+        parser.add_argument('--user_email', help='Email address of user account. This provides an optional extra integrity check that the API key provided was for the intended user')
 
     for parser in [conda_commands_parser, env_name_parser, requirements_parser, test_parser]:
         parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)

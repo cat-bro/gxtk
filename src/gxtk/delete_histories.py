@@ -32,6 +32,9 @@ def delete_histories(galaxy_instance, args):
     user_email = user['email']
     user_id = user['id']
 
+    if args.user_email and not user_email == args.user_email:
+        raise Exception('User email {args.user_email} was provided and does not match authenticated user email {user_email}')
+
     # TODO: wait for galaxy here
     histories = galaxy_instance.histories.get_histories(deleted=False, published=False)[::-1]
 

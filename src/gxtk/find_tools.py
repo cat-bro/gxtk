@@ -1,4 +1,3 @@
-from operator import truediv
 import time
 import yaml
 from pprint import pprint
@@ -33,7 +32,8 @@ def get_tool_details(galaxy_instance, args):
     edam_topics = edam_filter is not None
 
     tools = galaxy_instance.tools.get_tools()
-    labels_from_topic_id, topic_ids_from_label = load_edam_dicts()
+    if edam_topics:
+        labels_from_topic_id, topic_ids_from_label = load_edam_dicts()
 
     filtering_args = [
         'name', 'owner', 'display_name', 'version',
