@@ -1,12 +1,20 @@
 import time
+import json
 import yaml
 from pprint import pprint
 from tabulate import tabulate
 import packaging.version
 
 from .requirements import get_env_from_requirements, get_req_str_from_requirements
-from .utils import user_is_admin, indent, reverse_version_order, section_label_order, load_edam_dicts
+from .utils import (
+    user_is_admin, 
+    reverse_version_order,
+    section_label_order,
+    load_edam_topics,
+    get_panel_tools,
+)
 
+display_version = True
 display_changeset_revision = True
 
 def get_tool_details(galaxy_instance, args):
@@ -20,20 +28,36 @@ def get_tool_details(galaxy_instance, args):
     env = args.env
     biotools = args.biotools
     edam_topics = args.edam_topics
-    all = args.all
-    latest = args.latest
+    all_tools = args.all_tools
+    all_versions = args.all_versions
     labels = args.labels
     output_format = args.output_format
     section_label = args.section_label
+    source = args.source
 
     display_edam_topics, edam_filter = optional_column_or_filter(edam_topics)
     display_biotools_ids, biotools_filter = optional_column_or_filter(biotools)
     biotools = biotools_filter is not None
     edam_topics = edam_filter is not None
 
-    tools = galaxy_instance.tools.get_tools()
+    if args.source:
+        source_loaded = False
+        try:
+            with open(source) as json_tool_list:
+                tools = json.load(json_tool_list)
+                source_loaded = True
+        except: # not json
+            with open(source) as yaml_tool_list:
+                tools = yaml.safe_load(yaml_tool_list)
+                source_loaded = True
+        if not source_loaded:
+            raise Exception('Source input file cannot be loaded as json or yaml')
+    elif all_versions or tool_ids: # load all tools
+        tools = galaxy_instance.tools.get_tools()
+    else: # load tool panel only
+        tools = get_panel_tools(galaxy_instance)
     if edam_topics:
-        labels_from_topic_id, topic_ids_from_label = load_edam_dicts()
+        labels_from_topic_id = load_edam_topics()
 
     filtering_args = [
         'name', 'owner', 'display_name', 'version',
@@ -43,7 +67,7 @@ def get_tool_details(galaxy_instance, args):
     if not any([x is not None for x in filtering_args]):
         print(f'At least one of name, {", ".join(filtering_args[:-1])} or {filtering_args[-1]} must be specified')
         return
-    if not all and not tool_ids:
+    if not all_tools and not tool_ids:
         if name and not fuzz:
             tools = [t for t in tools if t.get('tool_shed_repository') and t['tool_shed_repository']['name'] == name]
         if name and fuzz:
@@ -66,8 +90,8 @@ def get_tool_details(galaxy_instance, args):
             tools = [t for t in tools if biotools_filter(get_biotools_ids(t))]
     elif tool_ids:
         tools = [t for t in tools if t['id'] in tool_ids]
-    if latest and not version and not tool_ids:
-        tools = filter_for_latest_versions(tools)
+    # if latest and not version and not tool_ids:
+    #     tools = filter_for_latest_versions(tools)
     if not tools:
         print('No tools found')
         return
@@ -103,7 +127,7 @@ def get_tool_details(galaxy_instance, args):
         {
             'header': 'Version',
             'get_value': lambda x: x.get('version'),
-            'show_value': True,
+            'show_value': display_version,
         },
         {
             'header': 'Edam Topics',

@@ -52,7 +52,7 @@ def run_tool_test(galaxy_instance, args):
         f'Test of {tool_id}',
         get_json_filename(tool_id, tags, profile_key, results_dir),
         append=False,  # append=True could be a good thing
-        galaxy_url=galaxy_url
+        galaxy_url=galaxy_url,
     )
     verify_kwds = {'skip_with_reference_data': True}
     test_tools(galaxy_interactor=interactor, test_references=references, results=results,

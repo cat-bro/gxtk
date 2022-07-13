@@ -144,16 +144,14 @@ def get_panel_tools(galaxy_instance):
     return tools
 
 
-def load_edam_dicts():  # TODO: return NamedTuple or something, return operations
+def load_edam_topics():  # TODO: return operations
     edam = load_edam_tree()
     labels_from_topic_id = {}
-    topic_ids_from_label = {}
     for key in edam:
         if key.startswith('topic'):
             label = edam[key].get('label')
             labels_from_topic_id[key] = label
-            topic_ids_from_label[label] = key
-    return (labels_from_topic_id, topic_ids_from_label)
+    return labels_from_topic_id
 
 
 class GxtkModule():
