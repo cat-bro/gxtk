@@ -25,8 +25,8 @@ def get_galaxy_instance(url, api_key, profile, profiles_path=profiles_file_path)
         prof = profiles.get(profile_key)
         if not prof:
             message = ''
-            if profile and not profile.get(profile):
-                message = f'Specified profile {profile} not found in {profiles_path}.'
+            if profile and not profiles.get(profile):
+                message = f'Specified profile {profile} not found in {get_profiles_path(profiles_path)}.'
             if not profiles.get('default', profiles.get('__default')):
                 message = f'Profiles path must contain `default` or `__default` key'
             raise Exception(message)
