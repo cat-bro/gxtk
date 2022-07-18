@@ -31,7 +31,7 @@ def get_galaxy_instance(url, api_key, profile, profiles_path=profiles_file_path)
                 message = f'Profiles path must contain `default` or `__default` key'
             raise Exception(message)
 
-        url = prof['url']  # must exist
+        url = prof['url']  # must exist # TODO try catch gracefully here
         if not api_key:
             api_key = prof.get('api_key', prof.get('key')) # can be None
     return GalaxyInstance(url, api_key)

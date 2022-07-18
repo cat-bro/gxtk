@@ -90,8 +90,8 @@ def get_tool_details(galaxy_instance, args):
             tools = [t for t in tools if biotools_filter(get_biotools_ids(t))]
     elif tool_ids:
         tools = [t for t in tools if t['id'] in tool_ids]
-    # if latest and not version and not tool_ids:
-    #     tools = filter_for_latest_versions(tools)
+    if source and not (all_versions or version or tool_ids):
+        tools = filter_for_latest_versions(tools)
     if not tools:
         print('No tools found')
         return

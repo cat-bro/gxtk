@@ -76,6 +76,14 @@ unless the --skip_wait flag is included in the command.
         parents=[command_line_common],
     )
 
+    get_tools_parser = subparsers.add_parser(
+        # TODO: deprecate this in favour of built-in saving through `gxtk find`
+        'get-tools',
+        help="Save tool list to a JSON or yaml file.",
+        parents=[command_line_common],
+    )
+    get_tools_parser.set_defaults(action='get-tools', require_galaxy=True, require_login=False, require_admin=False)
+
     decode_parser = subparsers.add_parser(
         'decode',
         help="Translate API ID to integer database ID (admin only).", # TODO: add help
@@ -139,6 +147,10 @@ unless the --skip_wait flag is included in the command.
 
     for parser in [decode_parser]:
         parser.add_argument('api_id', help='Encoded hexadecimal object ID')
+
+    for parser in [get_tools_parser]:
+        parser.add_argument('-o', '--output_path', help='Output file name')
+        parser.add_argument('-f', '--format', help='Format (yaml or json, default json)', default='json')
 
 
     return command_parser

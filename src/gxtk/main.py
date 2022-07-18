@@ -1,4 +1,4 @@
-from .bioblend import decode_id
+from .bioblend import decode_id, write_tool_list
 from .find_tools import get_tool_details
 from .utils import get_galaxy_instance, user_is_admin, show_keys
 from .test import run_tool_test
@@ -66,6 +66,10 @@ def main():
 
     if args.action == 'env-name':
         show_env(galaxy_instance, args)
+        return
+
+    if args.action == 'get-tools':
+        write_tool_list(galaxy_instance, args)
         return
 
 
