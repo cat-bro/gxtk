@@ -27,7 +27,13 @@ def get_json_filename(tool_id, tags, profile_key, results_dir):
 
 def get_version_from_id(tool_id):
     if '/' in tool_id:
-        return '/'.split(tool_id)[-1]
+        return tool_id.split('/')[-1]
+
+def get_deversioned_id(tool_id):  # TODO: move to utils
+    if '/' in tool_id:
+        return '/'.join(tool_id.split('/')[:-1])
+    else:
+        return tool_id
 
 def run_tool_test(galaxy_instance, args):
     tool_id = args.tool_id
@@ -47,7 +53,8 @@ def run_tool_test(galaxy_instance, args):
         keep_outputs_dir='',
     )
 
-    references = build_case_references(galaxy_interactor=interactor, tool_id=tool_id, tool_version=get_version_from_id(tool_id))
+    references = build_case_references(galaxy_interactor=interactor, tool_id=get_deversioned_id(tool_id), tool_version=get_version_from_id(tool_id))
+
     results = Results(
         f'Test of {tool_id}',
         get_json_filename(tool_id, tags, profile_key, results_dir),
