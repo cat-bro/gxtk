@@ -58,6 +58,7 @@ def get_tool_details(galaxy_instance, args):
         tools = get_panel_tools(galaxy_instance)
     if edam_topics:
         labels_from_topic_id = load_edam_topics()
+    tools = [t for t in tools if not t.get('model_class', '').endswith('Label')]
 
     filtering_args = [
         'name', 'owner', 'display_name', 'version',

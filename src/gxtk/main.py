@@ -5,6 +5,7 @@ from .test import run_tool_test
 from .delete_histories import delete_histories
 from .conda_commands import print_conda_commands
 from .mulled_hash import mulled_hash
+from .reload_tool import reload_tool
 
 from .requirements import show_requirements, show_env
 from .command_line import command_line_parser
@@ -70,6 +71,10 @@ def main():
 
     if args.action == 'get-tools':
         write_tool_list(galaxy_instance, args)
+        return
+
+    if args.action == 'reload':
+        reload_tool(galaxy_instance, args)
         return
 
 
