@@ -11,6 +11,7 @@ from galaxy.tool_util.edam_util import load_edam_tree
 # default_profiles_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'profiles.yml')
 default_profiles_path = os.path.expanduser('~/.gxtk.yml')
 profiles_file_path = os.getenv('GXTK_PROFILES_PATH', default_profiles_path)
+gxtk_test_dir = os.getenv('GXTK_TEST_DIR')
 
 link_to_sample_file = '' # TODO: Commit things and fill this in.
 check_profiles_example_message = 'See {link_to_sample_file} for an example of the expected format.'
@@ -36,6 +37,14 @@ def get_galaxy_instance(url, api_key, profile, profiles_path=profiles_file_path)
             api_key = prof.get('api_key', prof.get('key')) # can be None
     return GalaxyInstance(url, api_key)
 
+
+def get_test_dir():
+    # TODO: option in gxtk.yml for test dir
+    return gxtk_test_dir
+
+def get_test_history_file():
+    test_dir = get_test_dir()
+    return os.path.join(test_dir, 'test_history.yml') if test_dir else None
 
 def user_is_admin(galaxy_instance):
     return galaxy_instance.config.get_config().get('is_admin_user', False)

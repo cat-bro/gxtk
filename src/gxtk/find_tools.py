@@ -101,7 +101,7 @@ def get_tool_details(galaxy_instance, args):
     tools = sorted(tools, key=lambda x: (
         section_label_order(x['panel_section_name']),
         get_deversioned_id(x['id']),
-        reverse_version_order(x['version']),
+        reverse_version_order(packaging.version.parse(x['version'])),
     ))
 
     table_def = [

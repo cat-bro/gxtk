@@ -138,6 +138,8 @@ unless the --skip_wait flag is included in the command.
         # parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)  # TODO: other ways to specify tool
         parser.add_argument('--tags', nargs='+', help='Tags for test history')
         parser.add_argument('--results_dir', help='base directory for tool test results (defaults to $GXTK_RESULTS_DIR)')
+        parser.add_argument('--test_data', nargs='+', help='Local test data paths')  # TODO: add command line options from galaxy-tool-test
+        parser.add_argument('-P', '--parallel_tests', type=int, default=1, help='Number of tests to run in parallel')  # TODO: add command line options from galaxy-tool-test
 
     for parser in [reload_parser]:
         parser.add_argument('-t', '--tool_id', help='Tool ID', required=True)
