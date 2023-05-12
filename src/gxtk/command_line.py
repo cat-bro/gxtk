@@ -118,7 +118,7 @@ unless the --skip_wait flag is included in the command.
         parser.add_argument('--edam_topics', nargs='*', help='Enter flag to show Edam topics in output, add arguments to filter by topics',  default=['DO_NOT_DISPLAY'])
         parser.add_argument('-e', '--env', help='Show virtual environment name (admin API key required)', action='store_true')
         parser.add_argument('-f', '--output-format', help='Format of output list plain(default)|tsv', default='plain')
-        parser.add_argument('-S', '--source', help='Path to a yaml file containing tool list')
+        parser.add_argument('-S', '--source', help='Path to a json file containing tool list')
 
     for parser in [delete_histories_parser]:
         parser.add_argument('--name_startswith', help='History name prefix')
