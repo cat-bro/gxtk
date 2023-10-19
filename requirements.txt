@@ -1,6 +1,6 @@
 galaxy-tool-util
 bioblend>=0.17.0
 pysam
-packaging
+packaging==21.3
 tabulate
 edam-ontology
