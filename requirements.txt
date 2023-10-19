@@ -1,4 +1,4 @@
-galaxy-tool-util==21.9.2
+galaxy-tool-util
 bioblend>=0.17.0
 pysam
 packaging
